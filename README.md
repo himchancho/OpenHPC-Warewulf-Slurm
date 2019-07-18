@@ -21,7 +21,7 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 ### 2-1 . Export Environment Variables
 여기서 사용할 환경 변수들에 대한 설명이다  
 ~~줄그어진~~ 변수들은 설명서에는 있지만 여기서는 사용하지 않는 것들이다.  
-
+#####
 • ${sms name} # Hostname for SMS server  
 • ${sms ip} # Internal IP address on SMS server   
 • ${sms eth internal} # Internal Ethernet interface on SMS   
@@ -44,7 +44,7 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 • ${c ipoib[0]}, ${c ipoib[1]}, ... # IPoIB addresses for computes  
 • ${kargs} # Kernel boot arguments  
 • ~~${nagios web password} # Nagios web access password~~  
-
+#####
 이런 변수들은 매번 치는게 어려우니 텍스트파일에 저장해놓고 필요할 때 마다 복사해서 export하도록 한다. 
 
 
