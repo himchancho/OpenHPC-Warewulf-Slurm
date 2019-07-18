@@ -50,7 +50,7 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 이런 변수들은 매번 치는게 어려우니 텍스트파일에 저장해놓고 필요할 때 마다 복사해서 export하도록 한다. 
 
 ### 2-2. Route setting
-**가장 앞서 공유기의 DHCP를 비활성화 한다**
+**가장 앞서 공유기의 DHCP를 비활성화 한다**  
 앞으로 pxe부팅을 하게 될 것인데 그에 앞서 라우팅 세팅을 한다.
 <img src = "./img/route.png">  
 이 세팅을 하는 이유는 각각의 computenode가 pxe boot 할 때 gateway에 있는 서버에 접속하여 부팅이미지를 다운받게 되는데 그 gateway를 헤드노드로 지정할 수 있도록 해야한다.
