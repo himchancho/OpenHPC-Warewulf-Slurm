@@ -124,12 +124,98 @@ Complete basic Warewulf setup for master node
 ```
 ### 2-5. Deﬁne compute image for provisioning (ComputeNode image setting)  
 CHROOT는 자주 사용하므로 저장해놓고 복사 붙여넣기 하여 쉽게 사용하도록 하자  
- wwmkchroot을 이용해 computenode에 provisioning할 초기 이미지를 생성한다  
+ wwmkchroot을 이용해 ComputeNode에 provisioning할 초기 이미지를 생성한다  
  CHROOT의 경로에 있는 폴더가 ComputeNode의 root폴더가 된다고 생각하면 된다  
 ```
 [sms]# export CHROOT=/opt/ohpc/admin/images/centos7.6
 [sms]# wwmkchroot centos-7 $CHROOT
 ```
+Add OpenHPC components
+```
+[sms]# yum -y --installroot=$CHROOT install ohpc-base-compute
+[sms]# cp -p /etc/resolv.conf $CHROOT/etc/resolv.conf
+
+[sms]# yum -y --installroot=$CHROOT install ohpc-slurm-client
+[sms]# yum -y --installroot=$CHROOT install ntp
+[sms]# yum -y --installroot=$CHROOT install kernel
+[sms]# yum -y --installroot=$CHROOT install lmod-ohpc
+```
+Customize system conﬁguration
+```
+[sms]# wwinit database
+[sms]# wwinit ssh_keys
+```
+fstab은 linux에서 고정 마운트를 할수 있도록 하는 파일인데 후에 쓰일 것이다.
+여기서는 ComputeNode의 /home 디렉토리에 HeadNode의 /home 디렉토리를 마운트하는 설정이다
+```
+[sms]# echo "${sms_ip}:/home /home nfs nfsvers=3,nodev,nosuid 0 0" >> $CHROOT/etc/fstab
+[sms]# echo "${sms_ip}:/opt/ohpc/pub /opt/ohpc/pub nfs nfsvers=3,nodev 0 0" >> $CHROOT/etc/fstab
+```
+ComputeNode의 /etc/exports를 설정하면 nfs를 통해 자신의 디렉토리를 밖으로 export해줄 수 있다.  
+나중에 공유할 폴더를 더 추가하고 싶다면 /etc/exports를 참조하면 된다.  
+```
+[sms]# echo "/home *(rw,no_subtree_check,fsid=10,no_root_squash)" >> /etc/exports 
+[sms]# echo "/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)" >> /etc/exports
+[sms]# exportfs -a
+[sms]# systemctl restart nfs-server 
+[sms]# systemctl enable nfs-server
+```
+ComputeNode에 ntp 설정
+```
+[sms]# chroot $CHROOT systemctl enable ntpd 
+[sms]# echo "server ${sms_ip}" >> $CHROOT/etc/ntp.conf
+```
+Enable InﬁniBand drivers  
+여기서는 opensm을 설치할 필요가 없다 opensm은 host에만 설치한다.
+```
+[sms]# yum -y --installroot=$CHROOT groupinstall "InfiniBand Support"
+[sms]# yum -y --installroot=$CHROOT install infinipath-psm
+[sms]# chroot $CHROOT systemctl enable rdma
+```
+Increase locked memory limits
+```
+[sms]# perl -pi -e 's/# End of file/\* soft memlock unlimited\n$&/s' /etc/security/limits.conf 
+[sms]# perl -pi -e 's/# End of file/\* hard memlock unlimited\n$&/s' /etc/security/limits.conf
+[sms]# perl -pi -e 's/# End of file/\* soft memlock unlimited\n$&/s' $CHROOT/etc/security/limits.conf 
+[sms]# perl -pi -e 's/# End of file/\* hard memlock unlimited\n$&/s' $CHROOT/etc/security/limits.conf
+```
+Enable ssh control via resource manage  
+pam을 설정하게 되면 ComputeNode에는 HeadNode의 root계정만 ssh접속 할 수 있게 된다.
+```
+[sms]# echo "account required pam_slurm.so" >> $CHROOT/etc/pam.d/sshd
+```
+Add Ganglia monitoring 
+```
+[sms]# yum -y install ohpc-ganglia
+[sms]# yum -y --installroot=$CHROOT install ganglia-gmond-ohpc
+[sms]# cp /opt/ohpc/pub/examples/ganglia/gmond.conf /etc/ganglia/gmond.conf 
+[sms]# perl -pi -e "s/<sms>/${sms_name}/" /etc/ganglia/gmond.conf
+[sms]# cp /etc/ganglia/gmond.conf $CHROOT/etc/ganglia/gmond.conf 
+[sms]# echo "gridname MySite" >> /etc/ganglia/gmetad.conf
+[sms]# systemctl enable gmond
+[sms]# systemctl enable gmetad 
+[sms]# systemctl start gmond 
+[sms]# systemctl start gmetad 
+[sms]# chroot $CHROOT systemctl enable gmond
+[sms]# systemctl try-restart httpd
+```
+Import ﬁles
+```
+[sms]# wwsh file import /etc/passwd  
+[sms]# wwsh file import /etc/group  
+[sms]# wwsh file import /etc/shadow
+
+[sms]# wwsh file import /etc/slurm/slurm.conf  
+[sms]# wwsh file import /etc/munge/munge.key
+
+[sms]# wwsh file import /opt/ohpc/pub/examples/network/centos/ifcfg-ib0.ww  
+[sms]# wwsh -y file set ifcfg-ib0.ww --path=/etc/sysconfig/network-scripts/ifcfg-ib0
+```
+
+### 2-6. Finalizing provisioning conﬁguration
+
+
+
 
 
 
