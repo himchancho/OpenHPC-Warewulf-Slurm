@@ -26,7 +26,7 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 • ${sms eth internal} # Internal Ethernet interface on SMS   
 • ${eth provision} # Provisioning interface for computes   
 • ${internal netmask} # Subnet netmask for internal network   
-• ${ntp server} # Local ntp server for time synchronization 
+• ${ntp server} # Local ntp server for time synchronization   
 • ~~${bmc username} # BMC username for use by IPMI~~  
 • ~~${bmc password} # BMC password for use by IPMI~~  
 • ${num computes} # Total # of desired compute nodes   
@@ -35,14 +35,14 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 • ${c mac[0]}, ${c mac[1]}, ... # MAC addresses for computes 
 • ${c name[0]}, ${c name[1]}, ... # Host names for computes   
 • ${compute regex} # Regex matching all compute node names (e.g. “c*”)   
-• ${compute prefix} # Preﬁx for compute node names (e.g. “c”) Optional
+• ${compute prefix} # Preﬁx for compute node names (e.g. “c”) Optional  
 • ~~${sysmgmtd host} # BeeGFS System Management host name~~  
 • ~~${mgs fs name} # Lustre MGS mount name~~  
 • ${sms ipoib} # IPoIB address for SMS server  
 • ${ipoib netmask} # Subnet netmask for internal IPoIB  
 • ${c ipoib[0]}, ${c ipoib[1]}, ... # IPoIB addresses for computes  
 • ${kargs} # Kernel boot arguments  
-• ~~${nagios web password} # Nagios web access password~~
+• ~~${nagios web password} # Nagios web access password~~  
 
 이런 변수들은 매번 치는게 어려우니 텍스트파일에 저장해놓고 필요할 때 마다 복사해서 export하도록 한다. 
 
