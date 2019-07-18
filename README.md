@@ -27,8 +27,8 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 • ${eth provision} # Provisioning interface for computes   
 • ${internal netmask} # Subnet netmask for internal network   
 • ${ntp server} # Local ntp server for time synchronization 
-• ~~${bmc username} # BMC username for use by IPMI ~~
-• ~~${bmc password} # BMC password for use by IPMI ~~
+• ~~${bmc username} # BMC username for use by IPMI~~
+• ~~${bmc password} # BMC password for use by IPMI~~
 • ${num computes} # Total # of desired compute nodes   
 • ${c ip[0]}, ${c ip[1]}, ... # Desired compute node addresses   
 • ${c bmc[0]}, ${c bmc[1]}, ... # BMC addresses for computes 
@@ -36,8 +36,8 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 • ${c name[0]}, ${c name[1]}, ... # Host names for computes   
 • ${compute regex} # Regex matching all compute node names (e.g. “c*”)   
 • ${compute prefix} # Preﬁx for compute node names (e.g. “c”) Optional
-• ~~${sysmgmtd host} # BeeGFS System Management host name ~~
-• ~~${mgs fs name} # Lustre MGS mount name ~~
+• ~~${sysmgmtd host} # BeeGFS System Management host name~~
+• ~~${mgs fs name} # Lustre MGS mount name~~
 • ${sms ipoib} # IPoIB address for SMS server  
 • ${ipoib netmask} # Subnet netmask for internal IPoIB  
 • ${c ipoib[0]}, ${c ipoib[1]}, ... # IPoIB addresses for computes  
