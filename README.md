@@ -49,7 +49,7 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 
 • ${compute regex} # Regex matching all compute node names (e.g. “c*”)   
 
-• ${compute prefix} # Preﬁx for compute node names (e.g. “c”) Optional:   
+• ${compute prefix} # Preﬁx for compute node names (e.g. “c”) Optional
 
 • ~~${sysmgmtd host} # BeeGFS System Management host name ~~
 
