@@ -26,7 +26,7 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 • ${sms eth internal} # Internal Ethernet interface on SMS   
 • ${eth provision} # Provisioning interface for computes   
 • ${internal netmask} # Subnet netmask for internal network   
-• ${ntp server} # Local ntp server for time synchronization   
+• ${ntp server} # Local ntp server for time synchronization
 ~~• ${bmc username} # BMC username for use by IPMI ~~
 ~~• ${bmc password} # BMC password for use by IPMI ~~
 • ${num computes} # Total # of desired compute nodes   
