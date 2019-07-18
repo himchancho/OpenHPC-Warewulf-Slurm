@@ -6,11 +6,12 @@ Using OpenHPC-Warewulf-Slurm, make High Performance Computer
 
 ## 0. H/W Requirements for this recipe
 1. Head Node (DELL R720)  
-  1-1. ssd (리뷰안 dx2200 * 2 , 리뷰안 960x)
+  1-1. SSD (리뷰안 dx2200 * 2 , 리뷰안 960x * 2)
 2. Compute Node * 10 (Quanta Computer Windmill)  
-  2-1. Infiniband card
-3. IP router
-4. Infiniband Switch
+  2-1. Infiniband card  
+  2-2. SSD 
+3. IP router (iptime)
+4. Infiniband Switch (mellanox)
 
 ## 1. Installation Centos7.6
 1. Install CentOS 7.6 on Head Node
@@ -84,4 +85,53 @@ NTP setup
 [sms]# echo "server ${ntp_server}" >> /etc/ntp.conf 
 [sms]# systemctl restart ntpd
 ```
+Add resource management services on master node
+여기서 나오는 slurm.conf가 나중에 slurm을 세팅하는 중요한 파일이 된다. 지금은 넘어가도록 한다  
+```
+[sms]# yum -y install ohpc-slurm-server
+[sms]# perl -pi -e "s/ControlMachine=\S+/ControlMachine=${sms_name}/" /etc/slurm/slurm.conf
+```
+Optionally add InﬁniBand support services on master node  
+말그대로 인피니밴드가 있다면 설치하면 된다
+```
+[sms]# yum -y groupinstall "InfiniBand Support" 
+[sms]# yum -y install infinipath-psm
+[sms]# systemctl start rdma
+```
+인피니밴드를 설치하였다면 opensm도 설치해주자
+```
+[sms]# yum -y install opensm
+[sms]# service opensm start
+```
+인피니밴드 네트워크 세팅
+```
+[sms]# cp /opt/ohpc/pub/examples/network/centos/ifcfg-ib0 /etc/sysconfig/network-scripts
+[sms]# perl -pi -e "s/master_ipoib/${sms_ipoib}/" /etc/sysconfig/network-scripts/ifcfg-ib0 
+[sms]# perl -pi -e "s/ipoib_netmask/${ipoib_netmask}/" /etc/sysconfig/network-scripts/ifcfg-ib0
+[sms]# ifup ib0
+```
+Complete basic Warewulf setup for master node
+```
+[sms]# perl -pi -e "s/device = eth1/device = ${sms_eth_internal}/" /etc/warewulf/provision.conf
+[sms]# perl -pi -e "s/^\s+disable\s+= yes/ disable = no/" /etc/xinetd.d/tftp
+[sms]# ifconfig ${sms_eth_internal} ${sms_ip} netmask ${internal_netmask} up
+[sms]# systemctl restart xinetd
+[sms]# systemctl enable mariadb.service
+[sms]# systemctl restart mariadb
+[sms]# systemctl enable httpd.service
+[sms]# systemctl restart httpd
+[sms]# systemctl enable dhcpd.service
+```
+### 2-5. Deﬁne compute image for provisioning (ComputeNode image setting)
+CHROOT는 자주 사용하므로 저장해놓고 복사 붙여넣기 하여 쉽게 사용하도록 하자
+ wwmkchroot을 이용해 computenode에 provisioning할 초기 이미지를 생성한다
+ CHROOT의 경로에 있는 폴더가 ComputeNode의 root폴더가 된다고 생각하면 된다
+```
+[sms]# export CHROOT=/opt/ohpc/admin/images/centos7.6
+[sms]# wwmkchroot centos-7 $CHROOT
+```
+
+
+
+
 
