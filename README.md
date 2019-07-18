@@ -31,8 +31,8 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 • ~~${bmc password} # BMC password for use by IPMI~~  
 • ${num computes} # Total # of desired compute nodes   
 • ${c ip[0]}, ${c ip[1]}, ... # Desired compute node addresses   
-• ${c bmc[0]}, ${c bmc[1]}, ... # BMC addresses for computes 
-• ${c mac[0]}, ${c mac[1]}, ... # MAC addresses for computes 
+• ${c bmc[0]}, ${c bmc[1]}, ... # BMC addresses for computes  
+• ${c mac[0]}, ${c mac[1]}, ... # MAC addresses for computes  
 • ${c name[0]}, ${c name[1]}, ... # Host names for computes   
 • ${compute regex} # Regex matching all compute node names (e.g. “c*”)   
 • ${compute prefix} # Preﬁx for compute node names (e.g. “c”) Optional  
