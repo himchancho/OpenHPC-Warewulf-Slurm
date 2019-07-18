@@ -214,7 +214,87 @@ Import ﬁles
 
 ### 2-6. Finalizing provisioning conﬁguration
 
+Assemble bootstrap image
+```
+[sms]# export WW_CONF=/etc/warewulf/bootstrap.conf 
+[sms]# echo "drivers += updates/kernel/" >> $WW_CONF
+[sms]# echo "drivers += overlay" >> $WW_CONF
+[sms]# wwbootstrap `uname -r`
+```
+Assemble Virtual Node File System (VNFS) image
+```
+[sms]# wwvnfs --chroot $CHROOT
+```
+Register nodes for provisioning
+```
+[sms]# echo "GATEWAYDEV=${eth_provision}" > /tmp/network.$$  
+[sms]# wwsh -y file import /tmp/network.$$ --name network  
+[sms]# wwsh -y file set network --path /etc/sysconfig/network --mode=0644 --uid=0  
+[sms]# for ((i=0; i<$num_computes; i++)) ; do  
+          wwsh -y node new ${c_name[i]} --ipaddr=${c_ip[i]} --hwaddr=${c_mac[i]} -D ${eth_provision}  
+       done
+```
+만약 자신이 쓰는 ethernet card 이름이 eth0이 아니라면 다음을 실행한다
+```
+[sms]# export kargs="${kargs} net.ifnames=1,biosdevname=1"
+[sms]# wwsh provision set --postnetdown=1 "${compute_regex}"
+```
 
+```
+[sms]# wwsh -y provision set "${compute_regex}" --vnfs=centos7.6 --bootstrap=`uname -r` \  
+  --files=dynamic_hosts,passwd,group,shadow,slurm.conf,munge.key,network
+  
+[sms]# for ((i=0; i<$num_computes; i++)) ; do  
+    wwsh -y node set ${c_name[$i]} -D ib0 --ipaddr=${c_ipoib[$i]} --netmask=${ipoib_netmask}  
+    done
+[sms]# wwsh -y provision set "${compute_regex}" --fileadd=ifcfg-ib0.ww
+
+[sms]# systemctl restart dhcpd
+[sms]# wwsh pxe update
+```
+
+Optional kernel arguments
+
+```
+[sms]# export kargs="${kargs} namespace.unpriv_enable=1"
+[sms]# echo "user.max_user_namespaces=15076" >> $CHROOT/etc/sysctl.conf 
+[sms]# wwvnfs --chroot $CHROOT
+
+[sms]# wwsh -y provision set "${compute_regex}" --console=ttyS1,115200
+[sms]# wwsh -y provision set "${compute_regex}" --kargs="${kargs}"
+```  
+Optionally conﬁgure stateful provisioning
+UEFI부팅으로 세팅할 것이다
+후에 메뉴얼에 나와있는대로 bootlocal을 normal로 바꿔서는 안된다.
+```
+[sms]# yum -y --installroot=$CHROOT install grub2-efi grub2-efi-modules 
+[sms]# wwvnfs --chroot $CHROOT 
+[sms]# cp /etc/warewulf/filesystem/examples/efi_example.cmds /etc/warewulf/filesystem/efi.cmds 
+[sms]# wwsh provision set --filesystem=efi "${compute_regex}"
+[sms]# wwsh provision set --bootloader=sda "${compute_regex}"
+```
+
+## 3. Install OpenHPC Development Components
+
+Development Tools
+```
+[sms]# yum -y install ohpc-autotools
+[sms]# yum -y install EasyBuild-ohpc 
+[sms]# yum -y install hwloc-ohpc  
+[sms]# yum -y install spack-ohpc  
+[sms]# yum -y install valgrind-ohpc
+```
+Compilers  
+```
+[sms]# yum -y install gnu8-compilers-ohpc
+[sms]# yum -y install llvm5-compilers-ohpc
+```
+MPI Stacks  
+여기선 openmpi를 사용한다
+```
+[sms]# yum -y install openmpi3-gnu8-ohpc mpich-gnu8-ohpc
+```
+Performance Tools
 
 
 
