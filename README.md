@@ -18,7 +18,7 @@ Using OpenHPC-Warewulf-Slurm, make High Performance Computer
 centos7.6을 usb를 이용하여 부팅하면 다음과 같은 화면이 나타난다.
 <img src = "./img/centos_install.png" width="800" height="600">
 INSTALLATION SOURCE에서 설치할 디스크와 파티션을 잘 나누어주고  
-SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한다
+SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한다  
 
 ## 2. Installation OpenHPC
 ### 2-1 . Export Environment Variables
