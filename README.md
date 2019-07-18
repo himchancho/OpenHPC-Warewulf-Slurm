@@ -9,3 +9,7 @@ Using OpenHPC-Warewulf-Slurm, make High Performance Computer
   2-1. Infiniband card
 3. IP router
 4. Infiniband Switch
+
+## First Step
+1. Install CentOS 7.6 on Head Node
+<img src = "./centos_install">
