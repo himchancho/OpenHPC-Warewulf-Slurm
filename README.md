@@ -12,4 +12,4 @@ Using OpenHPC-Warewulf-Slurm, make High Performance Computer
 
 ## First Step
 1. Install CentOS 7.6 on Head Node
-<img src = "./img/centos_install.png">
+<img src = "./img/centos_install.png" width="800" height="600">
