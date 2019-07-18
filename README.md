@@ -125,7 +125,7 @@ Complete basic Warewulf setup for master node
 ```
 ### 2-5. Deﬁne compute image for provisioning (ComputeNode image setting)  
 CHROOT는 자주 사용하므로 저장해놓고 복사 붙여넣기 하여 쉽게 사용하도록 하자  
-#####(2-1 env-setup에 CHROOT를 추가하였음)
+#####2-1 env-setup에 CHROOT를 추가하였음
  wwmkchroot을 이용해 ComputeNode에 provisioning할 초기 이미지를 생성한다  
  CHROOT의 경로에 있는 폴더가 ComputeNode의 root폴더가 된다고 생각하면 된다  
 ```
