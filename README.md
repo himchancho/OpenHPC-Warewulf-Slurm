@@ -274,6 +274,8 @@ UEFI부팅으로 세팅할 것이다
 [sms]# wwsh provision set --filesystem=efi "${compute_regex}"
 [sms]# wwsh provision set --bootloader=sda "${compute_regex}"
 ```
+**여기까지 했다면 ComputeNode에서 PXE부팅은 성공해야 한다.**
+
 
 ## 3. Install OpenHPC Development Components
 
@@ -296,7 +298,72 @@ MPI Stacks
 [sms]# yum -y install openmpi3-gnu8-ohpc mpich-gnu8-ohpc
 ```
 Performance Tools
+```
+[sms]# yum -y install ohpc-gnu8-perf-tools
+[sms]# yum -y install ohpc-gnu8-geopm
+```
+Setup default development environment
+```
+[sms]# yum -y install lmod-defaults-gnu8-openmpi3-ohpc
+```
+3rd Party Libraries and Tools
+```
+[sms]# yum search petsc-gnu7 ohpc 
+Loaded plugins: fastestmirror Loading mirror speeds from cached hostfile 
+=========================== N/S matched: petsc-gnu7, ohpc =========================== 
+petsc-gnu7-impi-ohpc.x86_64 : Portable Extensible Toolkit for Scientific Computation 
+petsc-gnu7-mpich-ohpc.x86_64 : Portable Extensible Toolkit for Scientific Computation 
+petsc-gnu7-mvapich2-ohpc.x86_64 : Portable Extensible Toolkit for Scientific Computation 
+petsc-gnu7-openmpi3-ohpc.x86_64 : Portable Extensible Toolkit for Scientific Computation
+```
+```
+[sms]# yum -y install ohpc-gnu8-serial-libs 
+[sms]# yum -y install ohpc-gnu8-io-libs 
+[sms]# yum -y install ohpc-gnu8-python-libs 
+[sms]# yum -y install ohpc-gnu8-runtimes
+```
+```
+[sms]# yum -y install ohpc-gnu8-mpich-parallel-libs 
+[sms]# yum -y install ohpc-gnu8-openmpi3-parallel-libs
+```
 
+## 4. Resource Manager Startup
+필자가 만든 ComputeNode는 10개이므로 메뉴얼에서 조금 수정하였다
+```
+[sms]# systemctl enable munge 
+[sms]# systemctl enable slurmctld 
+[sms]# systemctl start munge 
+[sms]# systemctl start slurmctld
+[sms]# pdsh -w $compute_prefix[1-10] systemctl start slurmd
+[sms]# pdsh -w c1 "/usr/sbin/nhc-genconf -H '*' -c -" | dshbak -c
+```
+
+## 5. Run a Test Job
+```
+[sms]# useradd -m test
+[sms]# wwsh file resync passwd shadow group
+```
+Interactive execution
+Hello, World가 꼭 저렇게 나오는건 아니다. 자기 ComputeNode의 개수에 따라서 달라진다.
+```
+[sms]# su - test
+[test@sms ~]$ mpicc -O3 /opt/ohpc/pub/examples/mpi/hello.c
+[test@sms ~]$ srun -n 8 -N 2 --pty /bin/bash
+[test@c1 ~]$ prun ./a.out
+[prun] Master compute host = c1 [prun] Resource manager = slurm 
+[prun] Launch cmd = mpiexec.hydra -bootstrap slurm ./a.out
+Hello, world (8 procs total) 
+--> Process # 0 of 8 is alive. -> c1 
+--> Process # 4 of 8 is alive. -> c2 
+--> Process # 1 of 8 is alive. -> c1 
+--> Process # 5 of 8 is alive. -> c2 
+--> Process # 2 of 8 is alive. -> c1 
+--> Process # 6 of 8 is alive. -> c2 
+--> Process # 3 of 8 is alive. -> c1 
+--> Process # 7 of 8 is alive. -> c2
+```
+
+**여기까지 완성하였다면 기본적인 구조는 모두 완성한 셈이다!!**
 
 
 
