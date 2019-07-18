@@ -10,7 +10,7 @@ Using OpenHPC-Warewulf-Slurm, make High Performance Computer
 3. IP router
 4. Infiniband Switch
 
-## Installation Centos7.6
+## 1. Installation Centos7.6
 1. Install CentOS 7.6 on Head Node
 centos7.6을 usb를 이용하여 부팅하면 다음과 같은 화면이 나타난다.
 <img src = "./img/centos_install.png" width="800" height="600">
