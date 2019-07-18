@@ -122,10 +122,10 @@ Complete basic Warewulf setup for master node
 [sms]# systemctl restart httpd
 [sms]# systemctl enable dhcpd.service
 ```
-### 2-5. Deﬁne compute image for provisioning (ComputeNode image setting)
-CHROOT는 자주 사용하므로 저장해놓고 복사 붙여넣기 하여 쉽게 사용하도록 하자
- wwmkchroot을 이용해 computenode에 provisioning할 초기 이미지를 생성한다
- CHROOT의 경로에 있는 폴더가 ComputeNode의 root폴더가 된다고 생각하면 된다
+### 2-5. Deﬁne compute image for provisioning (ComputeNode image setting)  
+CHROOT는 자주 사용하므로 저장해놓고 복사 붙여넣기 하여 쉽게 사용하도록 하자  
+ wwmkchroot을 이용해 computenode에 provisioning할 초기 이미지를 생성한다  
+ CHROOT의 경로에 있는 폴더가 ComputeNode의 root폴더가 된다고 생각하면 된다  
 ```
 [sms]# export CHROOT=/opt/ohpc/admin/images/centos7.6
 [sms]# wwmkchroot centos-7 $CHROOT
