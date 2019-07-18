@@ -55,6 +55,8 @@ SOFTWARE SELECTION에서 GUI만 선택하고 (추가 애드온 없이) DONE한�
 ```
 route -add -net 192.168.0.0 netmask 255.255.255.0 dev em2
 ```
+이 코드가 아니더라도 GUI의 setting에서 network설정을 통해 route를 설정하는 것도 좋다
+
 
 
 
