@@ -16,7 +16,7 @@ bridge7        1   normal* alloc
 bridge8        1   normal* alloc
 bridge9        1   normal* alloc
 bridge10       1   normal* alloc
-
+```
 STATE에 *가 있는것은 연결이 안된상태란 뜻이다.
 그러므로 
 ```
