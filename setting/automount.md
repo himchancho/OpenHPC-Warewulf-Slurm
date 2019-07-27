@@ -129,5 +129,5 @@ mount -o rdma,port=20049 192.168.100.100:/tank/SLS /tank/SLS
 참고로 마운트하기 전에 폴더는 미리 만들어놓아야 한다
 
 **xprtrdma가 없는 모듈이라고 나올 수 있다. 이것은 처음에 warewulf에서 커널버전이 HeadNode와 같지 않아서이다. HeadNode의 `uname -r`을 확인하고 그 버전에 맞는 커널을 warewulf에서 설치해주어야 한다.**
-**$CHROOT에 있는 파일들을 모두 제거하고 커널을 HeadNode버전에 맞게 설치하는 것을 추천한다**
+**$CHROOT폴더를 제거하고 처음부터 다시 이미지를 메뉴얼에 맞게 만들되, 커널을 HeadNode버전에 맞게 설치하여야 한다.***
 
