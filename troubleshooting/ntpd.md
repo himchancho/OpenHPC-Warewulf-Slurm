@@ -49,3 +49,6 @@ ntp의 gap이 크지않아 업데이트가 되지 않는 상황이다.
 [bridge3] service slurmd restart
 ```
 sinfo를 이용해 잘 작동되는지 확인해보면 된다. 
+
+
+출처 : https://github.com/ciemat-tic/codec/wiki/Slurm-troubleshooting
