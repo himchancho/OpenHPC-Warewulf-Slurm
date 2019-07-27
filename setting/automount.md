@@ -1,4 +1,4 @@
-Auto Mount and NFS with infiniband
+Auto Mount and NFS with Infiniband
 ==========
 
 HeadNode에 새로운 드라이브를 설치하는 방법
@@ -128,6 +128,6 @@ mount -o rdma,port=20049 192.168.100.100:/tank/SLS /tank/SLS
 
 참고로 마운트하기 전에 폴더는 미리 만들어놓아야 한다
 
-
-
+**xprtrdma가 없는 모듈이라고 나올 수 있다. 이것은 처음에 warewulf에서 커널버전이 headnode와 같지 않아서이다. HeadNode의 `uname -r`을 확인하고 그 버전에 맞는 커널을 warewulf에서 설치해주어야 한다.**
+**$CHROOT에 있는 파일들을 모두 제거하고 커널을 HeadNode버전에 맞게 설치하는 것을 추천한다**
 
