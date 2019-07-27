@@ -2,7 +2,7 @@ ntpd troubleshooting
 ====================
 
 
-compute_node들을 정비하다 보면 Headnode의 Slurmctl에서 잡지 못하는 경우가 있다.
+ComputeNode들을 정비하다 보면 Headnode의 Slurmctl에서 잡지 못하는 경우가 있다.
 ```
 [sms] sinfo -N
 NODELIST   NODES PARTITION STATE
