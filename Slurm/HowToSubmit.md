@@ -18,6 +18,7 @@ salloc mpirun --hostfile /hostfile -np 200 interFoam -parallel > job_log
 
 
 [hostfile](./hostfile)  
+
 [링크]: https://slurm.schedmd.com/sbatch.html "Slurm Batch"
 
 
