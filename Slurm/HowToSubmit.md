@@ -1,4 +1,4 @@
-#How to submit a Job to Slurm
+# How to submit a Job to Slurm
 
 다음과 같은 스크립트 파일을 작성한다.
 ```
