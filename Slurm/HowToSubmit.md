@@ -7,7 +7,7 @@
 #!/bin/bash
 #SBATCH -N 10
 #SBATCH -n 200
-salloc mpirun --hostfile /hostfile -np 200 interFoam -parallel > job_log
+salloc mpirun --hostfile ./hostfile -np 200 interFoam -parallel > job_log
 ```
 옵션은 다양한 방법으로 만들 수 있다. ([링크] 참조)
 
