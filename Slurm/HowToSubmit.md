@@ -1,7 +1,8 @@
 # How to submit a Job to Slurm
 
-다음과 같은 스크립트 파일을 작성한다.
-```[링크] : https://slurm.schedmd.com/sbatch.html "Slurm B
+결론부터 말하면 스크립트파일을 만들어서 sbatch를 통해 제출하면 된다.  
+다음은 예시 스크립트 파일이다.
+```
 [sms] vim job_script
 
 #!/bin/bash
