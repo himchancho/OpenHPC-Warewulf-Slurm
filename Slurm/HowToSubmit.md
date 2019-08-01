@@ -17,7 +17,7 @@ salloc mpirun --hostfile /hostfile -np 200 interFoam -parallel > job_log
 스크립트파일을 sbatch 명령어를 이용하여 제출한다.
 
 
-[hostfile](./hostfile)
+[hostfile](./hostfile)  
 [링크]: https://slurm.schedmd.com/sbatch.html "Slurm Batch"
 
 
