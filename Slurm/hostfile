@@ -1,0 +1,11 @@
+#다음과 같이 /etc/hosts에 등록되어 있는 ComputeNode들의 이름을 입력하면 이 노드들에 의해 mpi가 실행됨
+bridge1
+bridge2
+bridge3
+bridge4
+bridge5
+bridge6
+bridge7
+bridge8
+bridge9
+bridge10
